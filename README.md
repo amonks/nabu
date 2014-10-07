@@ -3,9 +3,9 @@ nabu
 
 ![nabu](http://f.cl.ly/items/0f150s0n2z1h3M271m3B/SuperStock_4048-2804.jpg)
 
-![screenshot](http://cl.ly/XuB9/screen.png)
-
 arbitrary-form data collector and grapher using sinatra and d3
+
+![screenshot](http://cl.ly/XuB9/screen.png)
 
 ## Install
 
