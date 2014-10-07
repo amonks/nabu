@@ -1,9 +1,13 @@
-var graphIt = function(table, min, max, start, end) {
+var graphIt = function(table, columns, min, max, start, end) {
+
+  d3.select("body")
+    .append("h2")
+    .text(table);
 
   // common margins
   var margin = {
-      top: 20,
-      right: 20,
+      top: 50,
+      right: 100,
       bottom: 30,
       left: 50
     },
@@ -60,27 +64,51 @@ var graphIt = function(table, min, max, start, end) {
     .attr("class", "y axis")
     .call(yAxis);
 
-  // json callback
-  for (column in columns) {
+  function graphOneLine(error, json) {
+    var randomColor = function() {
+      return d3.hsl(Math.floor(Math.random() * 360), Math.random(), 0.8).toString();
+    };
 
-    d3.json("/data/" + table + "/" + columns[column] + "/json", function(error, json) {
-      if (error) return console.warn(error);
-      var dataSet = json;
+    if (error) return console.warn(error);
+    var dataSet = json;
 
-      // create line
-      var line = d3.svg.line()
-        .x(function(d) {
-          return x(timeFn(d));
-        })
-        .y(function(d) {
-          return y(valueFn(d));
-        });
+    // create line
+    var line = d3.svg.line()
+      .x(function(d) {
+        return x(timeFn(d));
+      })
+      .y(function(d) {
+        return y(valueFn(d));
+      });
 
-      // draw line
-      svg.append("path")
-        .datum(dataSet)
-        .attr("class", "line")
-        .attr("d", line);
-    });
+    // pick color
+    var color = randomColor();
+
+    // draw line
+    svg.append("path")
+      .datum(dataSet)
+      .attr("class", "line")
+      .attr("d", line)
+      .style("stroke", color)
+      .attr("data-legend",function(d) { return d[0].column; })
+
+
+
+    legend = svg.append("g")
+      .attr("class","legend")
+      .attr("transform","translate(50,30)")
+      .style("font-size","20px")
+      .attr("data-style-padding",10)
+      .attr("data-legend-color", "red")
+      .call(d3.legend);
+
   }
+
+  // json callback
+  // get json once per column/line
+  for (var column in columns) {
+    d3.json("/data/" + table + "/" + columns[column] + "/json", graphOneLine);
+  }
+
+
 };

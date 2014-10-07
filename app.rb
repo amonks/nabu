@@ -36,38 +36,85 @@ end
 # R E A D #
 # # # # # #
 
+#
 # json
+#
+
 get '/data/json' do
-  data.all.to_json
+  data.order(:sampleTime).all.to_json
 end
 get '/data/:table/json' do
-  data.where(:table => params[:table]).all.to_json
+  data.where(:table => params[:table]).order(:sampleTime).all.to_json
 end
 get '/data/:table/:column/json' do
-  data.where(:table => params[:table]).where(:column => params[:column]).all.to_json
+  data.where(:table => params[:table]).where(:column => params[:column]).order(:sampleTime).all.to_json
 end
 
+#
 # graph
-get '/data/:table/graph' do
-  @table = params[:table]
-  @columns = []
-  @data = data.where(:table => params[:table])
-  distincts = @data.distinct(:column).all
+#
+
+# helpers
+def makeTable(name, data, columns)
+  return {
+    :table => name,
+    :columns => columns,
+    :max => data.max(:value),
+    :min => data.min(:value),
+    :start => data.min(:sampleTime),
+    :end => data.max(:sampleTime),
+  }
+end
+
+def getColumns(table, data)
+  columns = []
+  dataset = data.where(:table => table)
+  distincts = dataset.distinct(:column).all
   distincts.each do |distinct|
-    @columns.push distinct[:column]
+    columns.push distinct[:column]
   end
-  @max = @data.max(:value)
-  @min = @data.min(:value)
-  @start = @data.min(:sampleTime)
-  @end = @data.max(:sampleTime)
+  return columns
+end
+
+# routes
+get '/data/graph' do
+  tables = data.distinct(:table).all
+  table_list = []
+  tables.each do |table|
+    table_list.push table[:table]
+  end
+
+  @tables = []
+  table_list.each do |table|
+    dataset = data.where(:table => table)
+    columns = getColumns(table, data)
+
+    @tables.push makeTable(table, dataset, columns)
+  end
 
   slim :graph
 end
-get '/data/:table/:column/graph' do
-  @table = params[:table]
-  @column = params[:column]
 
-  slim :graphCol
+get '/data/:table/graph' do
+  table = params[:table]
+  dataset = data.where(:table => table)
+  columns = getColumns(table, data)
+
+  @tables = []
+  @tables.push makeTable(table, dataset, columns)
+
+  slim :graph
+end
+
+get '/data/:table/:column/graph' do
+  table = params[:table]
+  columns = [params[:column]]
+  dataset = data.where(:table => table)
+
+  @tables = []
+  @tables.push makeTable(table, dataset, columns)
+
+  slim :graph
 end
 
 
@@ -111,8 +158,8 @@ end
 # # # # # # # # #
 
 get '/data/flush' do
-  data.all.delete
+  data.delete
 end
 get '/data/:table/flush' do
-  data.where(:table => params[:table]).all.delete
+  data.where(:table => params[:table]).delete
 end
