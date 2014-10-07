@@ -7,7 +7,7 @@ var graphIt = function(table, columns, min, max, start, end) {
   // common margins
   var margin = {
       top: 50,
-      right: 100,
+      right: 50,
       bottom: 30,
       left: 50
     },
