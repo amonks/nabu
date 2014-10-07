@@ -12,7 +12,7 @@ arbitrary-form data collector and grapher using sinatra and d3
     bundle install
     bundle exec ruby app.rb
 
-run `pd/testdata.pd` to generate some sample data
+run `pd/testdata.pd` to generate some sample data and send it to localhost on `:4567`
 
 ## HTTP GET api
 
