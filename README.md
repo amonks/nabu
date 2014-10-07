@@ -43,4 +43,4 @@ run `pd/testdata.pd` to generate some sample data and send it to localhost on `:
 
 ### dev
 
-    `/pry`    # repl in server console
+    /pry    # repl in server console
