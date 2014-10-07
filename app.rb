@@ -163,3 +163,6 @@ end
 get '/data/:table/flush' do
   data.where(:table => params[:table]).delete
 end
+get '/data/:table/:column/flush' do
+  data.where(:table => params[:table], :column => params[:column]).delete
+end
