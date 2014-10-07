@@ -55,6 +55,8 @@ end
 #
 
 # helpers
+
+# return a table object
 def makeTable(name, data, columns)
   return {
     :table => name,
@@ -66,6 +68,7 @@ def makeTable(name, data, columns)
   }
 end
 
+# return a table's distinct columns
 def getColumns(table, data)
   columns = []
   dataset = data.where(:table => table)
@@ -77,6 +80,8 @@ def getColumns(table, data)
 end
 
 # routes
+
+# graph all
 get '/data/graph' do
   tables = data.distinct(:table).all
   table_list = []
@@ -95,6 +100,7 @@ get '/data/graph' do
   slim :graph
 end
 
+# graph one table
 get '/data/:table/graph' do
   table = params[:table]
   dataset = data.where(:table => table)
@@ -106,6 +112,7 @@ get '/data/:table/graph' do
   slim :graph
 end
 
+# graph one column from one table
 get '/data/:table/:column/graph' do
   table = params[:table]
   columns = [params[:column]]
@@ -157,12 +164,17 @@ end
 # D E S T R O Y #
 # # # # # # # # #
 
+# delete all
 get '/data/flush' do
   data.delete
 end
+
+# delete one table
 get '/data/:table/flush' do
   data.where(:table => params[:table]).delete
 end
+
+# delete one column from one table
 get '/data/:table/:column/flush' do
   data.where(:table => params[:table], :column => params[:column]).delete
 end

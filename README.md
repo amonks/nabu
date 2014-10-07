@@ -40,3 +40,7 @@ run `pd/testdata.pd` to generate some sample data and send it to localhost on `:
     /data/table/flush
 
     /data/table/column/flush
+
+### dev
+
+    `/pry`    # repl in server console
