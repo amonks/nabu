@@ -30,7 +30,7 @@ def getTables(data)
   tables.each do |table|
     table_list.push table[:table]
   end
-  return table_list
+  return (table_list.length == 0) ? nil : table_list
 end
 
 # migrate up

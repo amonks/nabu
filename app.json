@@ -3,5 +3,8 @@
   "description": "arbitrary-form data collector and grapher using sinatra and d3",
   "website": "http://nabu.monks.co",
   "success_url": "/migrate",
-  "addons": ["heroku-postgresql:hobby-dev"]
+  "addons": ["heroku-postgresql:hobby-dev"],
+  "scripts": {
+    "postdeploy": "bundle exec ruby config/migrate.rb"
+  }
 }

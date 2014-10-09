@@ -11,14 +11,14 @@ html
         .col-sm-3
           h2
             a href="/" Nabu
-          h3 tables:
-          ul
-            li
-              a href="/data/graph" all
-            - table_list = getTables(DB[:data])
-            - table_list.each do |table|
+          - if table_list = getTables(DB[:data])
+            h3 tables:
+            ul
               li
-                a href="/data/#{table}/graph" = table
+                a href="/data/graph" all
+              - table_list.each do |table|
+                li
+                  a href="/data/#{table}/graph" = table
           h3
             a href="/info" info
         .col-sm-9
