@@ -1,5 +1,6 @@
-require 'bundler'
-Bundler.require
+require 'dotenv'
+require 'sequel'
+require 'pg'
 
 
 if ENV['RACK_ENV'] != 'production'
