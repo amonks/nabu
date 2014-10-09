@@ -33,7 +33,7 @@ get '/pry' do
 end
 
 get '/' do
-  redirect '/data/graph'
+  redirect '/info'
 end
 
 get '/info' do
