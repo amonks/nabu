@@ -25,6 +25,8 @@ If one column is called `min` and another `max`, you'll get a bivariate area gra
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/amonks/nabu)
 
+Visit `[appname].herokuapp.com/migrate` to set up your database.
+
 ## Local Install
 
     git clone https://github.com/amonks/nabu.git
