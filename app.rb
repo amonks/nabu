@@ -1,6 +1,11 @@
-# # # # # # # # # # # # #
-# E N V I R O N M E N T #
-# # # # # # # # # # # # #
+# # # # # # # # # #
+#   ~ N A B U ~   #
+#                 #
+# by:             #
+#   Andrew Monks  #
+# github:         #
+#   amonks/nabu   #
+# # # # # # # # # #
 
 # Load Dependencies
 require 'bundler'
@@ -14,7 +19,6 @@ require_relative 'app/helpers'
 require_relative 'app/routes'
 
 # migrate db
-# visit this after creating a psql db
 get '/migrate' do
   migrateDatabase(DB)
 end
@@ -25,7 +29,7 @@ get '/pry' do
 end
 
 get '/' do
-  slim :index
+  redirect '/data/graph'
 end
 
 get '/info' do

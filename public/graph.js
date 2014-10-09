@@ -1,9 +1,10 @@
 var graphIt = function(table, columns, min, max, start, end) {
 
-  d3.select("body")
+  d3.select("#graph")
     .append("h2")
     .text(table);
 
+    /* Find the new window dimensions */
   // common margins
   var margin = {
       top: 50,
@@ -11,8 +12,9 @@ var graphIt = function(table, columns, min, max, start, end) {
       bottom: 30,
       left: 50
     },
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+
+    width = parseInt(d3.select("#graph").style("width")) - margin.left - margin.right,
+    height = 300;
 
   // define ruby dateTime format
   var format = d3.time.format("%Y-%m-%d %H:%M:%S %Z");
@@ -47,7 +49,7 @@ var graphIt = function(table, columns, min, max, start, end) {
     .orient("left");
 
   // insert svg
-  var svg = d3.select("body").append("svg:svg")
+  var svg = d3.select("#graph").append("svg:svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
