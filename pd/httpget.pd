@@ -36,7 +36,7 @@
 #X obj 329 50 route float;
 #X text 386 8 set the EOS character;
 #X obj 329 427 t f;
-#X msg 382 407 connect \$1 4567;
+#X msg 382 407 connect \$1 80;
 #X connect 1 0 14 0;
 #X connect 2 0 15 0;
 #X connect 2 1 12 0;

@@ -1,5 +1,8 @@
 
 get '/data/:table/add/*' do
+  # instantiate data object
+  data = DB[:data]
+
   # instantiate output array
   additions = []
 
