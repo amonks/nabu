@@ -4,7 +4,6 @@ source 'https://rubygems.org'
 gem 'pry'          # pry repl
 
 gem 'slim'
-gem 'dotenv'
 gem 'sequel'
 gem 'pg'
 gem 'kramdown'

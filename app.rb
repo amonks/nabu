@@ -7,18 +7,17 @@ require 'bundler'
 Bundler.require
 require 'json'
 
-# Set ENV
-Dotenv.load
-
 # connect to DB
 DB = Sequel.connect('postgres://localhost/nabu')
 
-unless ENV['MIGRATED'] == 'TRUE'
-  migrateDatabase(DB)
-end
-
 require_relative 'app/helpers'
 require_relative 'app/routes'
+
+# migrate db
+# visit this after creating a psql db
+get '/migrate' do
+  migrateDatabase(DB)
+end
 
 # prepare REPL
 get '/pry' do
