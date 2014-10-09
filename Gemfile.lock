@@ -21,7 +21,7 @@ GEM
     rack-test (0.6.2)
       rack (>= 1.0)
     raindrops (0.13.0)
-    sequel (4.13.0)
+    sequel (4.14.0)
     sinatra (1.4.5)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -48,12 +48,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  dotenv
-  kramdown
-  pg
-  pry
-  sequel
-  sinatra
-  sinatra-contrib
-  slim
-  unicorn
+  dotenv (~> 0.11.1)
+  kramdown (~> 1.4.1)
+  pg (~> 0.17.1)
+  pry (~> 0.10.1)
+  sequel (~> 4.14.0)
+  sinatra (~> 1.4.5)
+  sinatra-contrib (~> 1.4.2)
+  slim (~> 2.0.3)
+  unicorn (~> 4.8.3)
