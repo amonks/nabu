@@ -12,7 +12,7 @@ require 'bundler'
 Bundler.require
 require 'json'
 
-if settings.environment != 'production'
+if ENV['RACK_ENV'] != 'production'
   Dotenv.load
 end
 

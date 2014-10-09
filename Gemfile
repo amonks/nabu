@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 
 gem 'pry'          # pry repl
 
-gem 'dotenv', :group => :development
+gem 'dotenv'
 
 gem 'slim'
 gem 'sequel'
