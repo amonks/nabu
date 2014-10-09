@@ -21,7 +21,11 @@ If one column is called `min` and another `max`, you'll get a bivariate area gra
 
 [/data/smells/add/`min`:2/`max`:20](/data/smells/add/min:2/max:20)
 
-## Install
+## Cloudy Install
+
+![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/amonks/nabu)
+
+## Local Install
 
     git clone https://github.com/amonks/nabu.git
     cd nabu
