@@ -12,8 +12,12 @@ require 'bundler'
 Bundler.require
 require 'json'
 
+if settings.environment != 'production'
+  Dotenv.load
+end
+
 # connect to DB
-DB = Sequel.connect('postgres://localhost/nabu')
+DB = Sequel.connect(ENV['DATABASE_URL'])
 
 require_relative 'app/helpers'
 require_relative 'app/routes'

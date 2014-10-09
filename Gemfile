@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 
 gem 'pry'          # pry repl
 
+gem 'dotenv'
+
 gem 'slim'
 gem 'sequel'
 gem 'pg'
