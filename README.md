@@ -11,7 +11,7 @@ Add data using the HTTP GET API.
 
 Add `50.8` to the `room1` column in the `sights` table:
 
-[/data/`sights`/add/`room1`:`50.8`](/data/sounds/add/room1:50.8)
+[/data/`sights`/add/`room1`:`50.8`](/data/sights/add/room1:50.8)
 
 You can add to multiple columns within the same table for a multivariate line graph:
 
