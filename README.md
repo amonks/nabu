@@ -34,6 +34,8 @@ If one column is called `min` and another `max`, you'll get a bivariate area gra
 
 Nabu expects to find an appropriate postgres url (postgres://localhost/nabu) in an environment variable called `DATABASE_URL`.
 
+Locally, you can set one by creating a file called `.env` setting the url: `DATABASE_URL=postgres://localhost/nabu`
+
 After creating a database, visit `/migrate` to get the schema set up.
 
 run `pd/testdata.pd` to generate some sample data and send it to localhost on `:4567`
