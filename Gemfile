@@ -1,9 +1,11 @@
+ruby '2.1.2'
+
 # set the source to rubygems.org
 source 'https://rubygems.org'
 
 gem 'pry'          # pry repl
 
-gem 'dotenv'
+gem 'dotenv', :group => :development
 
 gem 'slim'
 gem 'sequel'
