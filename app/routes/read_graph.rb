@@ -5,17 +5,18 @@ get '/data/graph' do
   # instantiate data object
   data = DB[:data]
 
-  table_list = getTables(data)
+  if table_list = getTables(data)
+    @tables = []
+    table_list.each do |table|
+      dataset = data.where(:table => table)
+      columns = getColumns(table, data)
 
-  @tables = []
-  table_list.each do |table|
-    dataset = data.where(:table => table)
-    columns = getColumns(table, data)
-
-    @tables.push makeTable(table, dataset, columns)
+      @tables.push makeTable(table, dataset, columns)
+    end
+    slim :graph
+  else
+    redirect '/info'
   end
-
-  slim :graph
 end
 
 # graph one table
