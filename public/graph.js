@@ -90,10 +90,10 @@ var graphIt = function(table, columns, min, max, start, end) {
       .attr("class", "line")
       .attr("d", line)
       .style("stroke", color)
-      .attr("data-legend",function(d) { return d[0].column; })
+      .attr("data-legend",function(d) { return d[0].column; });
 
 
-
+    // draw legend
     legend = svg.append("g")
       .attr("class","legend")
       .attr("transform","translate(50,30)")
@@ -103,6 +103,75 @@ var graphIt = function(table, columns, min, max, start, end) {
       .call(d3.legend);
 
   }
+
+  function graphMaxMin(error, json) {
+    console.log("graphmax!");
+    var randomColor = function() {
+      return d3.hsl(Math.floor(Math.random() * 360), Math.random(), 0.8).toString();
+    };
+
+    if (error) return console.warn(error);
+    var dataSet = json;
+
+    // create line
+    var area = d3.svg.area()
+      .x(function(d) {
+        return x(timeFn(d));
+      })
+      .y0(height)
+      .y1(function(d) {
+        return y(valueFn(d));
+      });
+
+    // pick color
+    var color = randomColor();
+
+    // draw line
+    svg.append("path")
+      .datum(dataSet)
+      .attr("class", "area")
+      .attr("d", area)
+      .style("fill", color);
+
+
+    d3.json("/data/" + table + "/min/json", graphMin);
+  }
+
+  function graphMin(error, json) {
+    console.log("graphmin!");
+    if (error) return console.warn(error);
+    var dataSet = json;
+
+    // create line
+    var area = d3.svg.area()
+      .x(function(d) {
+        return x(timeFn(d));
+      })
+      .y0(height)
+      .y1(function(d) {
+        return y(valueFn(d));
+      });
+
+    // pick color
+    var color = "white";
+
+    // draw line
+    svg.append("path")
+      .datum(dataSet)
+      .attr("class", "area")
+      .attr("d", area)
+      .style("fill", color);
+  }
+
+  var minIndex = columns.indexOf("min");
+  var maxIndex = columns.indexOf("max");
+  if (minIndex !== -1 && maxIndex !== -1) {
+    d3.json("/data/" + table + "/max/json", graphMaxMin);
+    columns.splice(columns.indexOf("min"), 1);
+    columns.splice(columns.indexOf("max"), 1);
+  }
+
+  console.log(columns);
 
   // json callback
   // get json once per column/line

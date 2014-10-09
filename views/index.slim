@@ -1,0 +1,7 @@
+ul
+  li
+    a href="data/graph" all
+  - table_list = getTables(DB[:data])
+  - table_list.each do |table|
+    li
+      a href="data/#{table}/graph" = table

@@ -5,9 +5,9 @@ gem 'pry'          # pry repl
 
 gem 'slim'
 gem 'dotenv'
-gem 'typhoeus'
 gem 'sequel'
 gem 'pg'
+gem 'kramdown'
 
 gem 'unicorn'       # unicorn server
 gem 'sinatra'       # sinatra framework

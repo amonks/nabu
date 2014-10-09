@@ -1,5 +1,13 @@
-doctype html
-meta charset="utf-8"
+script src="http://d3js.org/d3.v3.min.js"
+script src="/legend/d3.legend.js"
+script src="/graph.js"
+javascript:
+  var tables = #{{@tables.to_json}};
+  for (var i = 0; i <= tables.length - 1; i++) {
+    graphIt(tables[i].table, tables[i].columns, tables[i].min, tables[i].max, tables[i].start, tables[i].end);
+  }
+
+- content_for :style do
   css:
     html, body {
       margin: 0;
@@ -33,13 +41,3 @@ meta charset="utf-8"
       fill:white;
       stroke:none;
     }
-
-  body
-    script src="http://d3js.org/d3.v3.min.js"
-    script src="/legend/d3.legend.js"
-    script src="/graph.js"
-    javascript:
-      var tables = #{{@tables.to_json}};
-      for (var i = 0; i <= tables.length - 1; i++) {
-        graphIt(tables[i].table, tables[i].columns, tables[i].min, tables[i].max, tables[i].start, tables[i].end);
-      }
