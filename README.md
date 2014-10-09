@@ -23,7 +23,7 @@ If one column is called `min` and another `max`, you'll get a bivariate area gra
 
 ## Cloudy Install
 
-![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/amonks/nabu)
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/amonks/nabu)
 
 ## Local Install
 
