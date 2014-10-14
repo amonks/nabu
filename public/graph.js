@@ -1,20 +1,20 @@
-var graphIt = function(table, columns, min, max, start, end) {
+function graphIt(table, columns, min, max, start, end) {
+
+  // common margins
+  var margin = {
+    top: 50,
+    right: 50,
+    bottom: 30,
+    left: 50
+  };
+
 
   d3.select("#graph")
     .append("h2")
     .text(table);
 
-    /* Find the new window dimensions */
-  // common margins
-  var margin = {
-      top: 50,
-      right: 50,
-      bottom: 30,
-      left: 50
-    },
-
-    width = parseInt(d3.select("#graph").style("width")) - margin.left - margin.right,
-    height = 300;
+  var width = parseInt(d3.select("#graph").style("width")) - margin.left - margin.right;
+  var height = 300;
 
   // define ruby dateTime format
   var format = d3.time.format("%Y-%m-%d %H:%M:%S %Z");
@@ -66,105 +66,7 @@ var graphIt = function(table, columns, min, max, start, end) {
     .attr("class", "y axis")
     .call(yAxis);
 
-  function graphOneLine(error, json) {
-    var randomColor = function() {
-      return d3.hsl(Math.floor(Math.random() * 360), Math.random(), 0.8).toString();
-    };
-
-    if (error) return console.warn(error);
-    var dataSet = json;
-
-    // create line
-    var line = d3.svg.line()
-      .x(function(d) {
-        return x(timeFn(d));
-      })
-      .y(function(d) {
-        return y(valueFn(d));
-      });
-
-    // pick color
-    var color = randomColor();
-
-    // draw line
-    svg.append("path")
-      .datum(dataSet)
-      .attr("class", "line")
-      .attr("d", line)
-      .style("stroke", color)
-      .attr("data-legend",function(d) { return d[0].column; });
-
-
-    // draw legend
-    legend = svg.append("g")
-      .attr("class","legend")
-      .attr("transform","translate(50,30)")
-      .style("font-size","20px")
-      .attr("data-style-padding",10)
-      .attr("data-legend-color", "red")
-      .call(d3.legend);
-
-  }
-
-  function graphMaxMin(error, json) {
-    console.log("graphmax!");
-    var randomColor = function() {
-      return d3.hsl(Math.floor(Math.random() * 360), Math.random(), 0.8).toString();
-    };
-
-    if (error) return console.warn(error);
-    var dataSet = json;
-
-    // create line
-    var area = d3.svg.area()
-      .x(function(d) {
-        return x(timeFn(d));
-      })
-      .y0(height)
-      .y1(function(d) {
-        return y(valueFn(d));
-      });
-
-    // pick color
-    var color = randomColor();
-
-    // draw line
-    svg.append("path")
-      .datum(dataSet)
-      .attr("class", "area")
-      .attr("d", area)
-      .style("fill", color);
-
-
-    d3.json("/data/" + table + "/min/json", graphMin);
-  }
-
-  function graphMin(error, json) {
-    console.log("graphmin!");
-    if (error) return console.warn(error);
-    var dataSet = json;
-
-    // create line
-    var area = d3.svg.area()
-      .x(function(d) {
-        return x(timeFn(d));
-      })
-      .y0(height)
-      .y1(function(d) {
-        return y(valueFn(d));
-      });
-
-    // pick color
-    var color = "white";
-
-    // draw line
-    svg.append("path")
-      .datum(dataSet)
-      .attr("class", "area")
-      .attr("d", area)
-      .style("fill", color);
-  }
-
+  // graph max and min
   var minIndex = columns.indexOf("min");
   var maxIndex = columns.indexOf("max");
   if (minIndex !== -1 && maxIndex !== -1) {
@@ -173,13 +75,88 @@ var graphIt = function(table, columns, min, max, start, end) {
     columns.splice(columns.indexOf("max"), 1);
   }
 
-  console.log(columns);
-
-  // json callback
-  // get json once per column/line
+  // graph other columns
   for (var column in columns) {
-    d3.json("/data/" + table + "/" + columns[column] + "/json", graphOneLine);
+    d3.json("/data/" + table + "/" + columns[column] + "/json", graphLine);
   }
 
 
+  //
+  // functions
+  //
+
+  function randomColor() {
+    return d3.hsl(Math.floor(Math.random() * 360), Math.random(), 0.8).toString();
+  }
+
+  function graphMaxMin(error, json) {
+    var color = randomColor();
+    graphArea(error, json, color);
+    d3.json("/data/" + table + "/min/json", graphMin);
+
+    function graphMin(error, json) {
+      graphArea(error, json, "white");
+    }
+  }
+
+  function graphArea(error, dataSet, color) {
+    var area = createArea(error, dataSet);
+    // draw line
+    svg.append("path")
+      .datum(dataSet)
+      .attr("class", "area")
+      .attr("d", area)
+      .style("fill", color);
+
+    function createArea(error, dataSet) {
+      if (error) return console.warn(error);
+
+      // create area
+      return d3.svg.area()
+        .x(function(d) {
+          return x(timeFn(d));
+        })
+        .y0(height)
+        .y1(function(d) {
+          return y(valueFn(d));
+        });
+    }
+  }
+
+  function graphLine(error, dataSet) {
+    var line = createLine(error, dataSet);
+
+    var color = randomColor();
+
+    // draw line
+    svg.append("path")
+      .datum(dataSet)
+      .attr("class", "line")
+      .attr("d", line)
+      .style("stroke", color)
+      .attr("data-legend", function(d) {
+        return d[0].column;
+      });
+    // draw legend
+    svg.append("g")
+      .attr("class", "legend")
+      .attr("transform", "translate(50,30)")
+      .style("font-size", "20px")
+      .attr("data-style-padding", 10)
+      .attr("data-legend-color", "red")
+      .call(d3.legend);
+
+    function createLine(error, dataSet) {
+      if (error) return console.warn(error);
+
+      // create line
+      return d3.svg.line()
+        .x(function(d) {
+          return x(timeFn(d));
+        })
+        .y(function(d) {
+          return y(valueFn(d));
+        });
+    }
+  }
 };
